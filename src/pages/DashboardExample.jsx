@@ -1,12 +1,24 @@
 import { Helmet } from 'react-helmet-async'
 import { useState, useMemo, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router'
 
 /**
  * Contoh halaman dengan dynamic title berdasarkan state
  * Ini menunjukkan bagaimana title bisa berubah sesuai dengan data/state
  */
 export default function DashboardExample() {
-    const [activeTab, setActiveTab] = useState('overview')
+    const { tab } = useParams() // Ambil parameter 'tab' dari URL
+    const navigate = useNavigate() // Hook untuk navigasi programmatic
+    
+    // Set activeTab berdasarkan URL parameter, default ke 'overview'
+    const [activeTab, setActiveTab] = useState(tab || 'overview')
+    
+    // Sync activeTab dengan URL parameter saat URL berubah
+    useEffect(() => {
+        if (tab && tab !== activeTab) {
+            setActiveTab(tab)
+        }
+    }, [tab])
     
     // Title berubah sesuai tab yang aktif - menggunakan useMemo untuk optimasi
     const pageTitle = useMemo(() => {
@@ -23,6 +35,12 @@ export default function DashboardExample() {
     useEffect(() => {
         document.title = pageTitle
     }, [pageTitle])
+
+    // Function untuk handle tab change dengan update URL
+    const handleTabChange = (newTab) => {
+        setActiveTab(newTab)
+        navigate(`/dashboard-example/${newTab}`)
+    }
 
     return (
         <>
@@ -45,9 +63,20 @@ export default function DashboardExample() {
                     <strong>Current Page Title:</strong> <code>{pageTitle}</code>
                 </div>
                 
+                {/* Visual indicator untuk current URL */}
+                <div style={{ 
+                    marginBottom: '20px', 
+                    padding: '10px 15px', 
+                    backgroundColor: '#d4edda', 
+                    borderLeft: '4px solid #28a745',
+                    borderRadius: '4px'
+                }}>
+                    <strong>Current URL:</strong> <code>/dashboard-example/{activeTab}</code>
+                </div>
+                
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
                     <button 
-                        onClick={() => setActiveTab('overview')}
+                        onClick={() => handleTabChange('overview')}
                         style={{ 
                             padding: '10px 20px',
                             backgroundColor: activeTab === 'overview' ? '#007bff' : '#e0e0e0',
@@ -60,7 +89,7 @@ export default function DashboardExample() {
                         Overview
                     </button>
                     <button 
-                        onClick={() => setActiveTab('containers')}
+                        onClick={() => handleTabChange('containers')}
                         style={{ 
                             padding: '10px 20px',
                             backgroundColor: activeTab === 'containers' ? '#007bff' : '#e0e0e0',
@@ -73,7 +102,7 @@ export default function DashboardExample() {
                         Containers
                     </button>
                     <button 
-                        onClick={() => setActiveTab('images')}
+                        onClick={() => handleTabChange('images')}
                         style={{ 
                             padding: '10px 20px',
                             backgroundColor: activeTab === 'images' ? '#007bff' : '#e0e0e0',
@@ -86,7 +115,7 @@ export default function DashboardExample() {
                         Images
                     </button>
                     <button 
-                        onClick={() => setActiveTab('networks')}
+                        onClick={() => handleTabChange('networks')}
                         style={{ 
                             padding: '10px 20px',
                             backgroundColor: activeTab === 'networks' ? '#007bff' : '#e0e0e0',
