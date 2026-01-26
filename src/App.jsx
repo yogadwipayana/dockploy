@@ -1,9 +1,14 @@
-function App() {
+import { Routes, Route } from "react-router"
+import LandingPages from "./pages/LandingPages"
+import Login from "./pages/Login"
+
+export default function App() {
   return (
     <>
-      <h1 className="text-3xl bg-amber-100">Test</h1>
+      <Routes>
+        <Route path="/" element={<LandingPages />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </>
   )
 }
-
-export default App
