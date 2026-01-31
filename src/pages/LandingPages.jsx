@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Navbar from '../components/navbar'
+import { useWaitlist } from '../hooks/useWaitlist'
 import {
     Bell,
     CheckCircle,
@@ -10,41 +11,161 @@ import {
     LayoutGrid,
     Headphones,
     Cloud,
+    Loader2,
+    AlertCircle,
+    Clock,
 } from 'lucide-react'
 
-export default function LandingPages() {
+/**
+ * Waitlist Form Component
+ * 
+ * Reusable waitlist form with API integration, loading states,
+ * error handling, and success messages.
+ * 
+ * @param {Object} props
+ * @param {string} props.id - Unique identifier for the form instance
+ * @param {string} [props.variant='default'] - Form variant ('default' | 'large')
+ * @param {string} [props.buttonText='Join Waitlist'] - Button text
+ * @param {string} [props.placeholder='Enter your email'] - Input placeholder
+ * @param {string} [props.className=''] - Additional CSS classes
+ */
+function WaitlistForm({
+    id,
+    variant = 'default',
+    buttonText = 'Join Waitlist',
+    placeholder = 'Enter your email',
+    className = '',
+}) {
     const [email, setEmail] = useState('')
-    const [emailBottom, setEmailBottom] = useState('')
-    const [showSuccess, setShowSuccess] = useState(false)
-    const [showSuccessBottom, setShowSuccessBottom] = useState(false)
+    const {
+        joinWaitlist,
+        isLoading,
+        error,
+        isSuccess,
+        retryAfter,
+        countdown,
+        reset,
+    } = useWaitlist()
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if (email && isValidEmail(email)) {
-            setShowSuccess(true)
-            setTimeout(() => {
-                setShowSuccess(false)
+    // Auto-reset success state after 5 seconds
+    useEffect(() => {
+        if (isSuccess) {
+            const timer = setTimeout(() => {
+                reset()
                 setEmail('')
             }, 5000)
+            return () => clearTimeout(timer)
         }
-    }
+    }, [isSuccess, reset])
 
-    const handleSubmitBottom = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        if (emailBottom && isValidEmail(emailBottom)) {
-            setShowSuccessBottom(true)
-            setTimeout(() => {
-                setShowSuccessBottom(false)
-                setEmailBottom('')
-            }, 5000)
+        if (!email.trim() || isLoading) return
+
+        try {
+            await joinWaitlist(email)
+        } catch {
+            // Error is handled by the hook, no need to re-throw
         }
     }
 
-    const isValidEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        return emailRegex.test(email)
+    const isLarge = variant === 'large'
+    const inputClasses = isLarge
+        ? 'w-full px-5 py-3 lg:px-6 lg:py-4 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm disabled:bg-gray-100 disabled:cursor-not-allowed'
+        : 'w-full px-6 py-4 text-base border border-gray-300 bg-white text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm disabled:bg-gray-100 disabled:cursor-not-allowed'
+
+    const buttonClasses = isLarge
+        ? 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 text-base px-6 py-3 lg:px-8 lg:py-4 shadow-lg hover:shadow-xl whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600'
+        : 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 text-base px-8 py-4 shadow-lg hover:shadow-xl whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600'
+
+    // Success State
+    if (isSuccess) {
+        return (
+            <div className={`bg-green-50 border border-green-200 rounded-lg p-6 text-center animate-fade-in-up ${className}`}>
+                <div className="flex items-center justify-center mb-3">
+                    <CheckCircle className="w-12 h-12 text-green-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    You're on the list!
+                </h3>
+                <p className="text-gray-600">
+                    We'll notify you as soon as we launch. Get ready
+                    for something amazing!
+                </p>
+            </div>
+        )
     }
 
+    return (
+        <div className={className}>
+            <form
+                onSubmit={handleSubmit}
+                className="flex flex-col sm:flex-row gap-3"
+            >
+                <div className="flex-1">
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder={placeholder}
+                        required
+                        disabled={isLoading || countdown > 0}
+                        className={inputClasses}
+                        aria-label="Email address"
+                        aria-describedby={error ? `${id}-error` : undefined}
+                    />
+                </div>
+                <button
+                    type="submit"
+                    disabled={isLoading || countdown > 0 || !email.trim()}
+                    className={buttonClasses}
+                    aria-busy={isLoading}
+                >
+                    {isLoading ? (
+                        <>
+                            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                            Joining...
+                        </>
+                    ) : countdown > 0 ? (
+                        <>
+                            <Clock className="w-5 h-5 mr-2" />
+                            Wait {countdown}s
+                        </>
+                    ) : (
+                        <>
+                            <Bell className="w-5 h-5 mr-2" />
+                            {buttonText}
+                        </>
+                    )}
+                </button>
+            </form>
+
+            {/* Error Message */}
+            {error && (
+                <div
+                    id={`${id}-error`}
+                    className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2 animate-fade-in-up"
+                    role="alert"
+                >
+                    <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-red-700">{error}</p>
+                </div>
+            )}
+
+            {/* Rate Limit Warning */}
+            {retryAfter && countdown > 0 && !error && (
+                <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2">
+                    <Clock className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-amber-700">
+                        Too many attempts. Please wait {countdown} seconds before trying again.
+                    </p>
+                </div>
+            )}
+        </div>
+    )
+}
+
+export default function LandingPages() {
     return (
         <>
             <Helmet>
@@ -103,43 +224,12 @@ export default function LandingPages() {
 
                                 {/* Pre-Registration Form */}
                                 <div className="max-w-md mx-auto mb-6 lg:mb-8">
-                                    {showSuccess ? (
-                                        <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center animate-fade-in-up">
-                                            <div className="flex items-center justify-center mb-3">
-                                                <CheckCircle className="w-12 h-12 text-green-600" />
-                                            </div>
-                                            <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                                You're on the list!
-                                            </h3>
-                                            <p className="text-gray-600">
-                                                We'll notify you as soon as we launch. Get ready
-                                                for something amazing!
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <form
-                                            onSubmit={handleSubmit}
-                                            className="flex flex-col sm:flex-row gap-3"
-                                        >
-                                            <div className="flex-1">
-                                                <input
-                                                    type="email"
-                                                    value={email}
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                    placeholder="Enter your email"
-                                                    required
-                                                    className="w-full px-5 py-3 lg:px-6 lg:py-4 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                                                />
-                                            </div>
-                                            <button
-                                                type="submit"
-                                                className="inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 text-base px-6 py-3 lg:px-8 lg:py-4 shadow-lg hover:shadow-xl whitespace-nowrap"
-                                            >
-                                                <Bell className="w-5 h-5 mr-2" />
-                                                Join Waitlist
-                                            </button>
-                                        </form>
-                                    )}
+                                    <WaitlistForm
+                                        id="hero-waitlist"
+                                        variant="large"
+                                        buttonText="Join Waitlist"
+                                        placeholder="Enter your email"
+                                    />
                                     <p className="text-sm text-gray-500 mt-3 text-center">
                                         Get notified when we launch. No spam, unsubscribe
                                         anytime.
@@ -588,45 +678,12 @@ export default function LandingPages() {
                                 launch pricing, and updates on our progress.
                             </p>
                             <div className="max-w-md mx-auto">
-                                {showSuccessBottom ? (
-                                    <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center animate-fade-in-up">
-                                        <div className="flex items-center justify-center mb-3">
-                                            <CheckCircle className="w-12 h-12 text-green-600" />
-                                        </div>
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                            You're on the waitlist!
-                                        </h3>
-                                        <p className="text-gray-600">
-                                            We'll send you exclusive updates and early access
-                                            when we launch!
-                                        </p>
-                                    </div>
-                                ) : (
-                                    <form
-                                        onSubmit={handleSubmitBottom}
-                                        className="flex flex-col sm:flex-row gap-3"
-                                    >
-                                        <div className="flex-1">
-                                            <input
-                                                type="email"
-                                                value={emailBottom}
-                                                onChange={(e) =>
-                                                    setEmailBottom(e.target.value)
-                                                }
-                                                placeholder="Enter your email"
-                                                required
-                                                className="w-full px-6 py-4 text-base border border-gray-300 bg-white text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                                            />
-                                        </div>
-                                        <button
-                                            type="submit"
-                                            className="inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 text-base px-8 py-4 shadow-lg hover:shadow-xl whitespace-nowrap"
-                                        >
-                                            <Bell className="w-5 h-5 mr-2" />
-                                            Join the Waitlist
-                                        </button>
-                                    </form>
-                                )}
+                                <WaitlistForm
+                                    id="bottom-waitlist"
+                                    variant="default"
+                                    buttonText="Join the Waitlist"
+                                    placeholder="Enter your email"
+                                />
                                 <p className="text-sm text-gray-500 mt-4">
                                     Join the waitlist • Get launch updates • Exclusive early
                                     access
