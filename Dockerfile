@@ -26,8 +26,9 @@ COPY package*.json ./
 
 # Install dependencies with npm ci for reproducible builds
 # Using cache mount for npm cache to speed up subsequent builds
+# Note: --legacy-peer-deps used due to react-helmet-async not yet supporting React 19
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --no-audit --no-fund && \
+    npm ci --no-audit --no-fund --legacy-peer-deps && \
     npm cache clean --force
 
 # -----------------------------------------------------------------------------
