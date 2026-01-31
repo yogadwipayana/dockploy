@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router'
 import Navbar from '../components/navbar'
 import { useWaitlist } from '../hooks/useWaitlist'
 import {
@@ -553,9 +554,6 @@ export default function LandingPages() {
                                                     </span>
                                                     <span className="text-gray-500">/month</span>
                                                 </div>
-                                                <span className="text-sm text-gray-500">
-                                                    + server costs
-                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -589,9 +587,6 @@ export default function LandingPages() {
                                                     </span>
                                                     <span className="text-gray-500">/month</span>
                                                 </div>
-                                                <span className="text-sm text-gray-500">
-                                                    + VPS costs
-                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -695,21 +690,72 @@ export default function LandingPages() {
 
                 {/* Footer */}
                 <footer className="bg-gray-900 text-white py-8">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <div className="flex items-center justify-center mb-4">
-                            <img
-                                src="/images/logo-white.svg"
-                                alt="logo"
-                                width="40"
-                                height="40"
-                            />
-                            <span className="ml-2 text-xl font-bold">
-                                Dock<span className="text-blue-400">Ploy</span>
-                            </span>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                            {/* Logo and Copyright */}
+                            <div className="text-center md:text-left">
+                                <div className="flex items-center justify-center md:justify-start mb-4">
+                                    <img
+                                        src="/images/logo-white.svg"
+                                        alt="logo"
+                                        width="40"
+                                        height="40"
+                                    />
+                                    <span className="ml-2 text-xl font-bold">
+                                        Dock<span className="text-blue-400">Ploy</span>
+                                    </span>
+                                </div>
+                                <p className="text-gray-400 text-sm">
+                                    © 2026 DockPloy. All rights reserved.
+                                </p>
+                            </div>
+
+                            {/* Links */}
+                            <div className="text-center">
+                                <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">
+                                    Legal
+                                </h3>
+                                <ul className="space-y-2">
+                                    <li>
+                                        <Link
+                                            to="/terms"
+                                            className="text-gray-400 hover:text-white text-sm transition-colors"
+                                        >
+                                            Terms & Conditions
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/contact"
+                                            className="text-gray-400 hover:text-white text-sm transition-colors"
+                                        >
+                                            Contact Us
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* Contact Information */}
+                            <div className="text-center md:text-right">
+                                <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">
+                                    Contact
+                                </h3>
+                                <ul className="space-y-2">
+                                    <li className="text-gray-400 text-sm">
+                                        Email:{' '}
+                                        <a
+                                            href="mailto:admin@dockploy.online"
+                                            className="text-blue-400 hover:text-blue-300 transition-colors"
+                                        >
+                                            admin@dockploy.online
+                                        </a>
+                                    </li>
+                                    <li className="text-gray-400 text-sm">
+                                        Support: 24hrs
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <p className="text-gray-400 text-sm">
-                            © 2026 DockPloy. All rights reserved.
-                        </p>
                     </div>
                 </footer>
             </div>
