@@ -39,7 +39,7 @@ export default function Products() {
 
     const vpsTiers = [
         {
-            name: 'Nube 1',
+            name: 'KVM 1',
             subtitle: 'Entry Level',
             price: 'Rp35.000',
             save: 'Save 65%',
@@ -47,7 +47,7 @@ export default function Products() {
             specs: ['1 vCPU Core', '1 GB RAM', '20 GB SSD Storage'],
         },
         {
-            name: 'Nube 2',
+            name: 'KVM 2',
             subtitle: 'Standard',
             price: 'Rp50.000',
             save: 'Save 60%',
@@ -56,7 +56,7 @@ export default function Products() {
             popular: true,
         },
         {
-            name: 'Nube 3',
+            name: 'KVM 3',
             subtitle: 'Professional',
             price: 'Rp90.000',
             save: null,
@@ -64,7 +64,7 @@ export default function Products() {
             specs: ['2 vCPU Cores', '2 GB RAM', '20 GB SSD Storage'],
         },
         {
-            name: 'Nube 4',
+            name: 'KVM 4',
             subtitle: 'Business',
             price: 'Rp160.000',
             save: null,

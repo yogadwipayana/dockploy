@@ -7,8 +7,11 @@ import Tools from "./pages/Tools"
 import Products from "./pages/Products"
 import Terms from "./pages/Terms"
 import Contact from "./pages/Contact"
+import { useClarity } from "@/hooks/useClarity"
 
 export default function App() {
+  useClarity();
+
   return (
     <>
       <Routes>

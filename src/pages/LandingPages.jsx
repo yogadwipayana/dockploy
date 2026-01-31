@@ -362,10 +362,10 @@ export default function LandingPages() {
                                 </p>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8">
-                                    {/* Nube 1 */}
+                                    {/* KVM 1 */}
                                     <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
                                         <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
-                                            <h4 className="text-xl font-bold text-white">Nube 1</h4>
+                                            <h4 className="text-xl font-bold text-white">KVM 1</h4>
                                             <p className="text-blue-100 text-sm">Entry Level</p>
                                         </div>
                                         <div className="p-6">
@@ -399,13 +399,13 @@ export default function LandingPages() {
                                         </div>
                                     </div>
 
-                                    {/* Nube 2 */}
+                                    {/* KVM 2 */}
                                     <div className="bg-white rounded-2xl shadow-lg overflow-visible border-2 border-blue-500 relative hover:shadow-xl transition-shadow">
                                         <span className="absolute -top-5 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-full z-10 shadow-md">
                                             Popular
                                         </span>
                                         <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 rounded-t-2xl">
-                                            <h4 className="text-xl font-bold text-white">Nube 2</h4>
+                                            <h4 className="text-xl font-bold text-white">KVM 2</h4>
                                             <p className="text-blue-100 text-sm">Standard</p>
                                         </div>
                                         <div className="p-6">
@@ -439,10 +439,10 @@ export default function LandingPages() {
                                         </div>
                                     </div>
 
-                                    {/* Nube 3 */}
+                                    {/* KVM 3 */}
                                     <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
                                         <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4">
-                                            <h4 className="text-xl font-bold text-white">Nube 3</h4>
+                                            <h4 className="text-xl font-bold text-white">KVM 3</h4>
                                             <p className="text-blue-100 text-sm">Professional</p>
                                         </div>
                                         <div className="p-6">
@@ -473,10 +473,10 @@ export default function LandingPages() {
                                         </div>
                                     </div>
 
-                                    {/* Nube 4 */}
+                                    {/* KVM 4 */}
                                     <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
                                         <div className="bg-gradient-to-r from-pink-600 to-red-600 px-6 py-4">
-                                            <h4 className="text-xl font-bold text-white">Nube 4</h4>
+                                            <h4 className="text-xl font-bold text-white">KVM 4</h4>
                                             <p className="text-blue-100 text-sm">Business</p>
                                         </div>
                                         <div className="p-6">

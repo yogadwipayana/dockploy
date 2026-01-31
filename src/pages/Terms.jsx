@@ -17,6 +17,7 @@ import {
     Clock,
     Instagram,
     ArrowLeft,
+    BarChart3,
 } from 'lucide-react'
 
 export default function Terms() {
@@ -176,9 +177,28 @@ export default function Terms() {
             ],
         },
         {
+            id: 'analytics',
+            icon: BarChart3,
+            title: '12. Analytics and Tracking',
+            content: [
+                'We use Microsoft Clarity, a behavioral analytics service provided by Microsoft Corporation, to better understand how users interact with our website and to improve user experience.',
+                'Microsoft Clarity collects the following types of data:',
+                '• Session recordings of user interactions with our website',
+                '• Heatmaps showing areas of user engagement and clicks',
+                '• Mouse movements, scroll behavior, and click patterns',
+                '• Device and browser information (such as device type, screen resolution, and browser version)',
+                '• General geographic location (country/region level only)',
+                'The data collected is used solely for the purpose of improving our website\'s usability, identifying technical issues, and enhancing overall user experience.',
+                'Data Retention: Session recordings and associated analytics data are retained for a period of 30 days, after which they are automatically deleted.',
+                'GDPR and CCPA Compliance: We are committed to protecting your privacy rights under applicable data protection laws, including the General Data Protection Regulation (GDPR) and the California Consumer Privacy Act (CCPA). Microsoft Clarity processes data in accordance with Microsoft\'s privacy practices and data processing agreements.',
+                'Opt-Out: You can opt out of tracking by Microsoft Clarity by enabling the "Do Not Track" setting in your browser or by using browser extensions that block analytics scripts.',
+                'For more information about how Microsoft processes your data, please review the Microsoft Clarity Terms of Service: https://clarity.microsoft.com/terms',
+            ],
+        },
+        {
             id: 'contact',
             icon: Mail,
-            title: '12. Contact Information',
+            title: '13. Contact Information',
             content: [
                 'If you have any questions about these Terms, please contact us:',
             ],
