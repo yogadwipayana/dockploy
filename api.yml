@@ -1,0 +1,239 @@
+openapi: 3.0.3
+info:
+  title: Waitlist API
+  description: |
+    REST API for managing waitlist registrations. Allows users to join a waitlist 
+    with their email address. Features rate limiting, email validation, and 
+    duplicate prevention.
+  version: 1.0.0
+  contact:
+    name: API Support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+  - url: https://api.example.com
+    description: Production server
+
+tags:
+  - name: Waitlist
+    description: Operations for managing waitlist registrations
+  - name: Health
+    description: Health check and API status endpoints
+
+paths:
+  /api/waitlist/join:
+    post:
+      tags:
+        - Waitlist
+      summary: Join the waitlist
+      operationId: joinWaitlist
+      description: |
+        Register an email address to the waitlist. Validates email format and 
+        prevents duplicate registrations. Rate limited to 5 requests per 15 minutes 
+        per IP address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JoinWaitlistRequest"
+            examples:
+              validRequest:
+                summary: Valid email request
+                value:
+                  email: user@example.com
+              invalidEmail:
+                summary: Invalid email format
+                value:
+                  email: not-an-email
+      responses:
+        "201":
+          description: Successfully joined the waitlist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+              example:
+                message: "Joined waitlist successfully"
+        "400":
+          description: Invalid request - email format validation failed or missing email
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                invalidEmail:
+                  summary: Invalid email format
+                  value:
+                    error: "Invalid email format"
+                missingEmail:
+                  summary: Missing email field
+                  value:
+                    error: "Email is required"
+        "409":
+          description: Conflict - email already exists on the waitlist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "Email already on waitlist"
+        "429":
+          description: Too many requests - rate limit exceeded
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              schema:
+                type: integer
+            X-RateLimit-Limit:
+              description: Maximum number of requests allowed
+              schema:
+                type: integer
+            X-RateLimit-Remaining:
+              description: Number of requests remaining in current window
+              schema:
+                type: integer
+            X-RateLimit-Reset:
+              description: Unix timestamp when the rate limit window resets
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "Too many requests, please try again later"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "Something went wrong!"
+      x-rate-limit:
+        windowMs: 900000
+        maxRequests: 5
+        description: 5 requests per 15 minutes per IP address
+
+  /api/waitlist:
+    get:
+      tags:
+        - Waitlist
+      summary: Get waitlist routes
+      operationId: getWaitlistRoutes
+      description: Base endpoint for waitlist operations
+      responses:
+        "200":
+          description: Returns waitlist route information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Waitlist API endpoint"
+
+components:
+  schemas:
+    JoinWaitlistRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email address to register on the waitlist
+          example: user@example.com
+          minLength: 1
+          maxLength: 254
+
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success message
+          example: "Joined waitlist successfully"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message describing what went wrong
+          example: "Invalid email format"
+
+    WaitlistUser:
+      type: object
+      description: Database model for waitlist users
+      properties:
+        id:
+          type: string
+          description: Unique identifier (CUID)
+          example: "clx1234567890abcdef1234567"
+        email:
+          type: string
+          format: email
+          description: User's email address (unique)
+          example: "user@example.com"
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the user joined the waitlist
+          example: "2024-01-30T12:00:00.000Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the record was last updated
+          example: "2024-01-30T12:00:00.000Z"
+
+  headers:
+    X-RateLimit-Limit:
+      description: The maximum number of requests allowed per time window
+      schema:
+        type: integer
+        example: 5
+    X-RateLimit-Remaining:
+      description: The number of requests remaining in the current time window
+      schema:
+        type: integer
+        example: 4
+    X-RateLimit-Reset:
+      description: Unix timestamp when the rate limit window resets
+      schema:
+        type: integer
+        example: 1706618400
+
+  securitySchemes: {}
+
+security: []
+
+externalDocs:
+  description: Find more info about the Waitlist API
+  url: https://github.com/your-org/waitlist-api
+
+x-api-info:
+  techStack:
+    framework: Express.js
+    orm: Prisma
+    database: PostgreSQL (Supabase)
+    language: JavaScript (ES Modules)
+  rateLimiting:
+    library: express-rate-limit
+    strategy: IP-based
+    window: 15 minutes
+    maxRequests: 5
+    keyGenerator: IP address (req.ip)
+  middleware:
+    - CORS (configured for frontend URL)
+    - JSON body parsing
+    - Rate limiting on /api/waitlist/join
+    - Error handling
+    - 404 handling
