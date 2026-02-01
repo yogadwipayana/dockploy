@@ -24,7 +24,6 @@ import { useEffect } from 'react';
 export function useClarity() {
     useEffect(() => {
         const projectId = import.meta.env.VITE_CLARITY_PROJECT_ID;
-        console.log(projectId);
 
         // Only load if project ID is defined
         if (!projectId) {
