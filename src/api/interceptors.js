@@ -85,8 +85,8 @@ const responseErrorInterceptor = (error) => {
     if (response) {
         const duration = Date.now() - (response.config?.metadata?.startTime || Date.now());
 
-        // Log error in development
-        if (import.meta.env.DEV) {
+        // Log error in development (skip expected errors like 409 Conflict)
+        if (import.meta.env.DEV && response.status !== HTTP_STATUS.CONFLICT) {
             console.error(`[API Error] ${response.config?.method?.toUpperCase()} ${response.config?.url} - ${response.status} (${duration}ms)`, response.data);
         }
 
