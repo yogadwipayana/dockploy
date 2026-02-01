@@ -6,7 +6,7 @@
  */
 
 /** @type {string} */
-export const API_BASE_URL = import.meta.env.VITE_API_URL || "https://api.dockploy.online";
+export const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 /** @type {number} */
 export const API_TIMEOUT = 30000; // 30 seconds
