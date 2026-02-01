@@ -51,6 +51,14 @@ COPY . .
 # Set production environment
 ENV NODE_ENV=production
 
+# Build arguments for environment variables (Vite embeds these at build time)
+ARG VITE_CLARITY_PROJECT_ID
+ARG VITE_API_URL
+
+# Set environment variables from build args for Vite to pick up during build
+ENV VITE_CLARITY_PROJECT_ID=${VITE_CLARITY_PROJECT_ID}
+ENV VITE_API_URL=${VITE_API_URL}
+
 # Build the application
 RUN npm run build
 
