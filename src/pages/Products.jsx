@@ -55,22 +55,6 @@ export default function Products() {
             specs: ['1 vCPU Core', '2 GB RAM', '20 GB SSD Storage'],
             popular: true,
         },
-        {
-            name: 'KVM 3',
-            subtitle: 'Professional',
-            price: 'Rp90.000',
-            save: null,
-            gradient: 'from-purple-600 to-pink-600',
-            specs: ['2 vCPU Cores', '2 GB RAM', '20 GB SSD Storage'],
-        },
-        {
-            name: 'KVM 4',
-            subtitle: 'Business',
-            price: 'Rp160.000',
-            save: null,
-            gradient: 'from-pink-600 to-red-600',
-            specs: ['2 vCPU Cores', '4 GB RAM', '20 GB SSD Storage'],
-        },
     ]
 
     const addons = [
@@ -88,7 +72,7 @@ export default function Products() {
             ],
         },
         {
-            name: 'Dockploy',
+            name: 'Dokploy',
             subtitle: 'Deployment Platform',
             iconSrc: '/images/dokploy.svg',
             iconBg: 'bg-white',
@@ -205,7 +189,7 @@ export default function Products() {
                                             </div>
                                         </div>
                                         <span className="text-lg font-semibold text-gray-900">
-                                            Rp20.000
+                                            Rp15.000
                                             <span className="text-sm text-gray-500">/mo</span>
                                         </span>
                                     </div>
@@ -233,9 +217,9 @@ export default function Products() {
                                 </p>
                             </div>
 
-                            {/* VPS Products - 4 Tiers */}
-                            <div className="max-w-6xl mx-auto mb-16">
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8">
+                            {/* VPS Products - 2 Tiers */}
+                            <div className="max-w-4xl mx-auto mb-16">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
                                     {vpsTiers.map((tier) => (
                                         <div
                                             key={tier.name}
@@ -370,26 +354,30 @@ export default function Products() {
                                 <div className="relative bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
                                     <div className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-br from-violet-500 to-purple-600 mask-gradient pointer-events-none"></div>
                                     <div className="flex items-center justify-between mb-6">
-                                        <div className="bg-gradient-to-br from-amber-500 to-orange-600 text-white w-14 h-14 rounded-xl flex items-center justify-center shadow-lg">
-                                            <Zap className="w-7 h-7" />
+                                        <div className="bg-white w-14 h-14 rounded-xl flex items-center justify-center shadow-lg p-2">
+                                            <img 
+                                                src="/images/dokploy.svg" 
+                                                alt="Dokploy"
+                                                className="w-full h-full object-contain"
+                                            />
                                         </div>
                                         <span className="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full">
                                             Managed
                                         </span>
                                     </div>
                                     <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                                        Managed Dockploy
+                                        Managed Dokploy
                                     </h3>
                                     <p className="text-gray-500 mb-4">
                                         Fully managed deployment platform
                                     </p>
                                     <p className="text-gray-600 mb-6">
-                                        We manage your Dockploy instance on your server —
+                                        We manage your Dokploy instance on your server —
                                         updates, monitoring, and support included.
                                     </p>
                                     <div className="space-y-3 mb-6">
                                         {[
-                                            'Dockploy installation & setup',
+                                            'Dokploy installation & setup',
                                             'Regular updates & patches',
                                             '24/7 monitoring & alerts',
                                             'Priority email support',
@@ -413,7 +401,7 @@ export default function Products() {
                                             </div>
                                         </div>
                                         <p className="text-xs text-gray-400 mt-2">
-                                            Per Dockploy instance
+                                            Per Dokploy instance
                                         </p>
                                     </div>
                                 </div>
@@ -443,7 +431,7 @@ export default function Products() {
                                         {[
                                             'VPS provisioning & setup',
                                             'Security hardening',
-                                            'Docker & Dockploy included',
+                                            'Docker & Dokploy included',
                                             'Backup & monitoring',
                                         ].map((item) => (
                                             <div

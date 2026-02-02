@@ -336,7 +336,7 @@ export default function LandingPages() {
                                                 </div>
                                             </div>
                                             <span className="text-xl font-bold text-gray-900">
-                                                Rp20.000
+                                                Rp15.000
                                                 <span className="text-sm text-gray-500 font-normal">
                                                     /mo
                                                 </span>
@@ -361,7 +361,7 @@ export default function LandingPages() {
                                     pre-installed and configured.
                                 </p>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8 max-w-4xl mx-auto">
                                     {/* KVM 1 */}
                                     <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
                                         <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
@@ -438,74 +438,6 @@ export default function LandingPages() {
                                             </ul>
                                         </div>
                                     </div>
-
-                                    {/* KVM 3 */}
-                                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
-                                        <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4">
-                                            <h4 className="text-xl font-bold text-white">KVM 3</h4>
-                                            <p className="text-blue-100 text-sm">Professional</p>
-                                        </div>
-                                        <div className="p-6">
-                                            <div className="mb-4">
-                                                <span className="text-3xl font-bold text-gray-900">
-                                                    Rp90.000
-                                                </span>
-                                                <span className="text-gray-500">/mo</span>
-                                            </div>
-                                            <ul className="space-y-3 text-sm">
-                                                <li className="flex items-center space-x-2">
-                                                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                                                    <span className="text-gray-700">
-                                                        2 vCPU Cores
-                                                    </span>
-                                                </li>
-                                                <li className="flex items-center space-x-2">
-                                                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                                                    <span className="text-gray-700">2 GB RAM</span>
-                                                </li>
-                                                <li className="flex items-center space-x-2">
-                                                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                                                    <span className="text-gray-700">
-                                                        20 GB SSD Storage
-                                                    </span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    {/* KVM 4 */}
-                                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
-                                        <div className="bg-gradient-to-r from-pink-600 to-red-600 px-6 py-4">
-                                            <h4 className="text-xl font-bold text-white">KVM 4</h4>
-                                            <p className="text-blue-100 text-sm">Business</p>
-                                        </div>
-                                        <div className="p-6">
-                                            <div className="mb-4">
-                                                <span className="text-3xl font-bold text-gray-900">
-                                                    Rp160.000
-                                                </span>
-                                                <span className="text-gray-500">/mo</span>
-                                            </div>
-                                            <ul className="space-y-3 text-sm">
-                                                <li className="flex items-center space-x-2">
-                                                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                                                    <span className="text-gray-700">
-                                                        2 vCPU Cores
-                                                    </span>
-                                                </li>
-                                                <li className="flex items-center space-x-2">
-                                                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                                                    <span className="text-gray-700">4 GB RAM</span>
-                                                </li>
-                                                <li className="flex items-center space-x-2">
-                                                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                                                    <span className="text-gray-700">
-                                                        20 GB SSD Storage
-                                                    </span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -529,21 +461,25 @@ export default function LandingPages() {
                                     <div className="relative bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
                                         <div className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-br from-violet-500 to-purple-600 mask-gradient pointer-events-none"></div>
                                         <div className="flex items-center justify-between mb-6">
-                                            <div className="bg-gradient-to-br from-amber-500 to-orange-600 text-white w-14 h-14 rounded-xl flex items-center justify-center shadow-lg">
-                                                <Zap className="w-7 h-7" />
+                                            <div className="bg-white w-14 h-14 rounded-xl flex items-center justify-center shadow-lg p-2">
+                                                <img 
+                                                    src="/images/dokploy.svg" 
+                                                    alt="Dokploy"
+                                                    className="w-full h-full object-contain"
+                                                />
                                             </div>
                                             <span className="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full">
                                                 Managed
                                             </span>
                                         </div>
                                         <h4 className="text-2xl font-bold text-gray-900 mb-2">
-                                            Managed Dockploy
+                                            Managed Dokploy
                                         </h4>
                                         <p className="text-gray-500 mb-4">
                                             Fully managed deployment platform
                                         </p>
                                         <p className="text-gray-600 mb-6">
-                                            We manage your Dockploy instance on your server —
+                                            We manage your Dokploy instance on your server —
                                             updates, monitoring, and support included.
                                         </p>
                                         <div className="pt-6 border-t border-gray-100">
